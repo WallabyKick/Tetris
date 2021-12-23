@@ -41,15 +41,21 @@ bool GameScene::init(){
 
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Sprite.plist", "Sprite.png");
 
-    auto PauseItem = MenuItemLabel::create(Label::createWithTTF("Back/Pause", MARKER_FELT_TTF, 12),
+    auto PauseItem = MenuItemLabel::create(Label::createWithTTF("Pause", MARKER_FELT_TTF, 12),
                                            CC_CALLBACK_1(GameScene::Pause, this));
     MenuItems.pushBack(PauseItem);
     PauseItem->setPosition(visibleSize.width - PauseItem->getContentSize().width/2 + origin.x, visibleSize.height - PauseItem->getContentSize().height + origin.y);
 
-    ScoreLabel = Label::createWithTTF("Score: ", MARKER_FELT_TTF, 12);
+
+    auto NextLabel = Label::createWithTTF("Next:", MARKER_FELT_TTF, 12);
+    addChild(NextLabel);
+    NextLabel->setPosition(NextLabel->getContentSize().width/2 + origin.x, visibleSize.height - NextLabel->getContentSize().height + origin.y);
+
+    ScoreLabel = Label::createWithTTF("Score: 0", MARKER_FELT_TTF, 12);
     addChild(ScoreLabel);
     ScoreLabel->setPosition(ScoreLabel->getContentSize().width/2 + origin.x, ScoreLabel->getContentSize().height + origin.y);
-    field = new Field(this, ScoreLabel->getPositionX()-ScoreLabel->getContentSize().width/2,ScoreLabel->getPositionY()-ScoreLabel->getContentSize().height/2);
+
+    manager = new Manager(this, ScoreLabel->getPositionX()-ScoreLabel->getContentSize().width/2,ScoreLabel->getPositionY()-ScoreLabel->getContentSize().height/2, Score);
 
 
     auto touchListener = EventListenerTouchOneByOne::create();
@@ -81,25 +87,8 @@ void GameScene::update(float delta){
     if (!pause){
         Time += delta;
         if (Time > GameTick) {
-            int Case = field->TickUpdate();
-            switch (Case) {
-                case -2:
-                    Director::getInstance()->popScene();
-                    break;
-                case -1:
-                    break;
-                case 0:
-                    GameTick *= ScaleTime;
-                    break;
-                case 4:
-                    GameTick *= ScaleTime;
-                    Score +=100;
-                    break;
-                default:
-                    GameTick *= ScaleTime;
-                    Score += Case*10;
-                    break;
-            }
+            if (!manager->TickUpdate())
+                Director::getInstance()->popScene();
             ScoreLabel->setString("Score: " + std::to_string(Score));
             ScoreLabel->setPosition(ScoreLabel->getContentSize().width/2 + Director::getInstance()->getVisibleOrigin().x, ScoreLabel->getContentSize().height + Director::getInstance()->getVisibleOrigin().y);
             Time = 0;
@@ -114,15 +103,15 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
             Director::getInstance()->getVisibleSize().width / 2) {
             if (touch->getLocation().y - Director::getInstance()->getVisibleOrigin().y >
                 Director::getInstance()->getVisibleSize().height / 2)
-                field->MoveLeft();
+                manager->MoveLeft();
             else
-                field->InstantDown();
+                manager->InstantDown();
         } else {
             if (touch->getLocation().y - Director::getInstance()->getVisibleOrigin().y <
                 Director::getInstance()->getVisibleSize().height / 2)
-                field->Rotate();
+                manager->Rotate();
             else
-                field->MoveRight();
+                manager->MoveRight();
         }
     }
     return true;

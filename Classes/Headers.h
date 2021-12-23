@@ -5,8 +5,9 @@
 #ifndef PROJ_ANDROID_HEADERS_H
 #define PROJ_ANDROID_HEADERS_H
 
+ int const FIELDSIZE_X = 12;
+ int const FIELDSIZE_Y = 21;
+
 #endif //PROJ_ANDROID_HEADERS_H
 
 
-#define FIELDSIZE_X 12
-#define FIELDSIZE_Y 21

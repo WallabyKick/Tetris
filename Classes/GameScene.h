@@ -6,7 +6,7 @@
 #define PROJ_ANDROID_GAMESCENE_H
 
 #include "cocos2d.h"
-#include "Field.h"
+#include "Manager.h"
 
 class GameScene : public cocos2d::Scene {
 public:
@@ -18,7 +18,7 @@ public:
     bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
 
 
-    Field * field;
+    Manager * manager;
 private:
     float ScaleTime = 0.97;
     cocos2d::Label * ScoreLabel;

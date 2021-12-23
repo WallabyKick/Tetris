@@ -5,21 +5,27 @@
 #ifndef PROJ_ANDROID_BLOCK_H
 #define PROJ_ANDROID_BLOCK_H
 
-#pragma once
 #include "Headers.h"
 #include "cocos2d.h"
 
-class Block {
+
+
+struct Block {
 public:
     int x,y;
     cocos2d::Sprite * sprite;
     Block(){
-        sprite->create();
+    }
+    Block(int x, int y, cocos2d::Sprite * spire){
+        this->y = y;
+        this->x = x;
+        this->sprite = spire;
     }
 
     void operator=(const Block& block){
         this->x = block.x;
         this->y = block.y;
+        this->sprite = block.sprite;
     }
 
     bool operator==(const Block& block) const

@@ -8,19 +8,18 @@
 #include "Headers.h"
 #include "cocos2d.h"
 #include "Block.h"
-#include "Tetramino.h"
 
 
 USING_NS_CC;
 
-class Field {
+class Manager {
 public:
 
-    Field(Scene * scene, float posX, float posY);
+    Manager(Scene * scene, float posX, float posY, int & score);
 
-    int TickUpdate();
+    bool TickUpdate();
 
-    int InstantDown();
+    void InstantDown();
 
     bool MoveLeft();
 
@@ -29,16 +28,23 @@ public:
     bool Rotate();
 
 private:
-    Block BlockField[FIELDSIZE_X][FIELDSIZE_Y];
+    int * score;
+    std::vector<Block> Tetramino;
+    std::vector<Block> TetraminoNext;
+    std::vector<Block> Field;
+    Vec2 origin;
     Scene * scene;
-    Tetramino tetramino;
     Director * director;
     float FieldScale;
     float posX, posY;
-    int Instantly = -3;
+
     bool GenerateNew();
-    bool Check();
-    bool CleanLine(int Line[4]);
+
+    bool CheckCollisson();
+    bool CheckBorder();
+    void CheckLine();
+    //return can move down
+    bool MoveDown();
     bool MoveLines(int Line);
 };
 
