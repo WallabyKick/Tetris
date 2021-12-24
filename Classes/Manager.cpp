@@ -4,7 +4,6 @@
 
 #include "Manager.h"
 
-
 Manager::Manager(Scene * scene, float posX, float posY, int & score){
     director = Director::getInstance();
     FieldScale = director->getVisibleSize().width/FIELDSIZE_X;
@@ -28,7 +27,6 @@ bool Manager::TickUpdate(){
 }
 
 bool Manager::MoveDown(){
-
     std::vector<Block> Buff;
     Buff.insert(Buff.end(),Tetramino.begin(),Tetramino.end());
 
@@ -49,14 +47,12 @@ bool Manager::MoveDown(){
 }
 
 bool Manager::MoveLeft(){
-
     std::vector<Block> Buff;
     Buff.insert(Buff.end(),Tetramino.begin(),Tetramino.end());
 
     for_each(begin(Tetramino),end(Tetramino),[](Block & item){
         item.x--;
     });
-
 
     if (!CheckCollisson() || !CheckBorder()){
         Tetramino.clear();
@@ -89,11 +85,11 @@ bool Manager::MoveRight(){
 }
 
 bool Manager::Rotate(){
-    Block save[4];
-    Block p = Tetramino[1];
-    for (int n = 0; n < 4; n++)
+    Block save[Tetramino.size()];
+    Block p = Tetramino[1];   //центр поворота тетрамино
+    for (int n = 0; n < Tetramino.size(); n++)
         save[n] = Tetramino[n];
-    for (int n = 0; n < 4; n++)
+    for (int n = 0; n < Tetramino.size(); n++)
     {
         int x = Tetramino[n].y - p.y;
         int y = Tetramino[n].x - p.x;
@@ -101,12 +97,12 @@ bool Manager::Rotate(){
         Tetramino[n].y = p.y + y;
     }
     if (!CheckCollisson()||!CheckBorder()) {
-        for (int n = 0; n < 4; n++) {
+        for (int n = 0; n < Tetramino.size(); n++) {
             Tetramino[n] = save[n];
         }
         return false;
     }
-    for (int n = 0; n <4; n++){
+    for (int n = 0; n <Tetramino.size(); n++){
         Tetramino[n].sprite->setPosition(Tetramino[n].x*FieldScale+FieldScale/2+posX,(FIELDSIZE_Y-Tetramino[n].y)*FieldScale+FieldScale/2+posY);
     }
     return true;
@@ -176,7 +172,7 @@ bool Manager::MoveLines(int Line){
 }
 
 bool Manager::GenerateNew() {
-    int NextScale = 3;
+    int NextScale = 3;  //множитель масштаба следующего тетрамино
     int figures[7][4]=
             {
                     1,3,5,7, // I
@@ -193,7 +189,6 @@ bool Manager::GenerateNew() {
     std::uniform_int_distribution<std::mt19937::result_type> ColorFigure(1,5);
 
     Field.insert(Field.end(),Tetramino.begin(),Tetramino.end());
-
 
     int n = TypeFigure(rng);
     int nBuf = TypeFigure(rng);

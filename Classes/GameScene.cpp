@@ -4,12 +4,6 @@
 
 #include "GameScene.h"
 
-
-#define MARKER_FELT_TTF "fonts/Marker Felt.ttf"
-
-
-USING_NS_CC;
-
 Scene* GameScene::createScene(){
     return GameScene::create();
 }

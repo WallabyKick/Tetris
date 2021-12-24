@@ -6,9 +6,6 @@
 #define PROJ_ANDROID_BLOCK_H
 
 #include "Headers.h"
-#include "cocos2d.h"
-
-
 
 struct Block {
 public:

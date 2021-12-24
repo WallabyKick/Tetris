@@ -5,8 +5,7 @@
 #ifndef PROJ_ANDROID_STARTMENU_H
 #define PROJ_ANDROID_STARTMENU_H
 
-#include "cocos2d.h"
-
+#include "Headers.h"
 
 class StartMenu : public cocos2d::Scene {
 public:

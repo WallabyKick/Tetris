@@ -5,7 +5,7 @@
 #ifndef PROJ_ANDROID_GAMESCENE_H
 #define PROJ_ANDROID_GAMESCENE_H
 
-#include "cocos2d.h"
+#include "Headers.h"
 #include "Manager.h"
 
 class GameScene : public cocos2d::Scene {

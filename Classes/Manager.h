@@ -6,11 +6,8 @@
 #define PROJ_ANDROID_FIELD_H
 
 #include "Headers.h"
-#include "cocos2d.h"
 #include "Block.h"
 
-
-USING_NS_CC;
 
 class Manager {
 public:
